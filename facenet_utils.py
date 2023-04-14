@@ -79,9 +79,8 @@ class Inception(nn.Module):
             self.branch3 = None
         
         if pool_proj_p != None:
-
+            
             if pool_proj_p[0] == 'm':
-                
                 if pool_proj_p[1] != None:
                     self.branch4 = nn.Sequential(
                         nn.MaxPool2d((3,3), stride=pool_proj_p[2], padding=1),
@@ -89,9 +88,8 @@ class Inception(nn.Module):
                     )
                 else:
                     self.branch4 = nn.MaxPool2d((3,3), stride=pool_proj_p[2], padding=1)
-            
-            elif pool_proj_p[0] == 'L2':
 
+            elif pool_proj_p[0] == 'L2':
                 if pool_proj_p[1] != None:
                     self.branch4 = nn.Sequential(
                         L2Pool((3,3), stride=pool_proj_p[2], padding=1),
@@ -102,7 +100,6 @@ class Inception(nn.Module):
             
             else:
                 raise Exception("The type of pooling inside Inception is not defined.")    
-        
         else:
             self.branch4 = None
     
