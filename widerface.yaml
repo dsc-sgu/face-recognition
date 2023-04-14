@@ -1,0 +1,7 @@
+path: /content
+train: WIDER_train/images
+val: WIDER_val/images
+test: WIDER_test/images
+
+names:
+  0: face
