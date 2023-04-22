@@ -1,3 +1,5 @@
+# Raspli (^-^), GNU AGPL-3.0 license
+
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
@@ -12,12 +14,7 @@ class FaceNetNN2(nn.Module):
     Reference: https://arxiv.org/abs/1503.03832.
     '''
 
-    def __init__(self,
-            loss_fn = nn.TripletMarginLoss,
-            loss_fn_margin: float = 0.2,
-            optim_fn = optim.SGD,
-            optim_fn_lr: float = 0.05
-        ):
+    def __init__(self):
         super(FaceNetNN2, self).__init__()
         
         # layers
@@ -50,10 +47,6 @@ class FaceNetNN2(nn.Module):
         self.fully_conn = nn.Linear(1024, 128)
         ## 1x1x128
         # L2 normalization (see forward)
-
-        # loss and optim functions
-        self.loss_fn = loss_fn(margin=loss_fn_margin)
-        self.optim_fn = optim_fn(self.parameters(), lr=optim_fn_lr)
 
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

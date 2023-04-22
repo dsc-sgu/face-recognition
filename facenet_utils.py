@@ -1,7 +1,10 @@
+# Raspli (^-^), GNU AGPL-3.0 license
+
 import torch
 from torch import nn
 from torch.nn import functional as F
 from torchvision.models.googlenet import BasicConv2d
+from typing import Union
 
 
 # for Inception (from below)
@@ -32,12 +35,12 @@ class Inception(nn.Module):
 
     def __init__(self,
             in_channels: int,
-            filters1x1: int | None = None,
-            filters3x3_reduce: int | None = None,
-            filters3x3: int | tuple | None = None,
-            filters5x5_reduce: int | None = None,
-            filters5x5: int | tuple | None = None,
-            pool_proj_p: tuple | None = None
+            filters1x1: Union[int, None] = None,
+            filters3x3_reduce: Union[int, None] = None,
+            filters3x3: Union[int, tuple, None] = None,
+            filters5x5_reduce: Union[int, None] = None,
+            filters5x5: Union[int, tuple, None] = None,
+            pool_proj_p: Union[tuple, None] = None
         ):
         super(Inception, self).__init__()
 
@@ -104,13 +107,13 @@ class Inception(nn.Module):
             self.branch4 = None
     
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor) -> torch.Tensor: 
         
         x_branch1 = self.branch1(x) if self.branch1 != None else None
         x_branch2 = self.branch2(x) if self.branch2 != None else None
         x_branch3 = self.branch3(x) if self.branch3 != None else None
         x_branch4 = self.branch4(x) if self.branch4 != None else None
-        
+
         x = torch.cat([x_branch for x_branch in (x_branch1, x_branch2, x_branch3, x_branch4) if x_branch != None], dim=1)
 
         return x
