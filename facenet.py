@@ -5,7 +5,7 @@ from torch import nn, optim
 from torch.nn import functional as F
 from torchvision.models.googlenet import BasicConv2d
 
-from facenet_utils import Inception
+from utils import Inception
 
 
 class FaceNetNN2(nn.Module):
