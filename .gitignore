@@ -1,3 +1,10 @@
+# SPECIAL
+weights/
+
+# LIBRARIES
+libtorch/
+
+# IDE
 .vscode/
 
 # Prerequisites
