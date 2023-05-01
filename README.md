@@ -1,8 +1,7 @@
 # Приложение на C++ для детектирования лиц (#3)
 
 - [x] На изображении
-- [ ] На видео
-- [ ] На видеопотоке
+- [x] На видеопотоке
 
 Необходимо установить библиотеки [OpenCV](https://docs.opencv.org/4.7.0/d7/d9f/tutorial_linux_install.html) и [LibTorch](https://pytorch.org/get-started/locally/).
 
