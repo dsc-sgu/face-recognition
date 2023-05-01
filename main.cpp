@@ -1,3 +1,5 @@
+// Raspli (^-^), GNU AGPL-3.0 license
+
 #include <opencv2/opencv.hpp>
 #include <torch/script.h>
 #include "imgproc.h"

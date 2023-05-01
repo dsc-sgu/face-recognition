@@ -1,3 +1,5 @@
+// Raspli (^-^), GNU AGPL-3.0 license
+
 #ifndef DETECT
 #define DETECT
 
