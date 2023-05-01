@@ -1,11 +1,12 @@
+#ifndef DETECT
+#define DETECT
+
 #include <opencv2/opencv.hpp>
 #include <torch/script.h>
 #include "imgproc.h"
 
 using namespace std;
 
-#ifndef BOX
-#define BOX
 class Box {
     public:
         unsigned short x1, y1, x2, y2;
@@ -24,19 +25,13 @@ class Box {
             this->conf = conf;
         }
 };
-#endif
 
-#ifndef IOU
-#define IOU
 float iou(Box &fb, Box &sb) {
     float inter = max(min(fb.x2, sb.x2) - min(fb.x1, sb.x1), 0) * max(min(fb.y2, sb.y2) - min(fb.y1, sb.y1), 0);
     float union_ = (fb.x2-fb.x1)*(fb.y2-fb.y1) + (sb.x2-sb.x1)*(sb.y2-sb.y1) - inter;
     return inter / union_;
 }
-#endif
 
-#ifndef NMS
-#define NMS
 vector<Box> nms(vector<Box> &boxes, float iouThres) {
     vector<Box> supBoxes;
     for (Box box: boxes) {
@@ -53,13 +48,9 @@ vector<Box> nms(vector<Box> &boxes, float iouThres) {
     }
     return supBoxes;
 }
-#endif
 
-#ifndef GET_BOXES
-#define GET_BOXES
 vector<Box> getBoxes(
     at::Tensor &outputs,
-    CoverImgMeta &coverImgMeta,
     float confThres = 0.25,
     float iouThres = 0.15
 ) {
@@ -68,11 +59,13 @@ vector<Box> getBoxes(
         for (unsigned short ibox = 0; ibox < outputs.sizes()[2]; ibox++) {
             float conf = outputs[ibatch][4][ibox].item<float>();
             if (conf >= confThres) {
-                unsigned short cx = outputs[ibatch][0][ibox].item<int>(),
+                unsigned short
+                    cx = outputs[ibatch][0][ibox].item<int>(),
                     cy = outputs[ibatch][1][ibox].item<int>(),
                     w = outputs[ibatch][2][ibox].item<int>(),
                     h = outputs[ibatch][3][ibox].item<int>();
-                unsigned short x1 = cx - w / 2,
+                unsigned short
+                    x1 = cx - w / 2,
                     y1 = cy - h / 2,
                     x2 = cx + w / 2,
                     y2 = cy + h / 2;
@@ -84,13 +77,10 @@ vector<Box> getBoxes(
     vector<Box> boxes = nms(candidates, iouThres);
     return boxes;
 }
-#endif
 
-#ifndef HIGHT_BOXES
-#define HIGHT_BOXES
-void hightBoxes(cv::Mat &img, vector<Box> &boxes) {
+void highlightBoxes(cv::Mat &img, vector<Box> &boxes) {
     
-    cv::Scalar rectColor = cv::Scalar(0,192,0);
+    cv::Scalar rectColor(0,192,0);
     unsigned short fontScale = 2, confPrecis = 2;
 
     for (Box box: boxes) {
@@ -106,4 +96,5 @@ void hightBoxes(cv::Mat &img, vector<Box> &boxes) {
         cv::putText(img, text, {box.x1,box.y1}, cv::FONT_HERSHEY_PLAIN, fontScale, {255,255,255}, 2);
     }
 }
+
 #endif
